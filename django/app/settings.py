@@ -42,14 +42,18 @@ SECURE_REDIRECT_EXEMPT = [r"^_health/$"]
 
 INSTALLED_APPS = [
     "app.apps.AppConfig",
-    # "app.apps.AppAdminConfig",
     "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
-    "django.contrib.sessions",
     "django.contrib.messages",
+    "django.contrib.sessions",
     "django.contrib.staticfiles",
+    "django_celery_beat",
+    "django_celery_results",
+    "graphene_django",
+    "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
+    # "app.apps.AppAdminConfig",
 ]
 
 MIDDLEWARE = [

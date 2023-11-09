@@ -7,6 +7,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from typing import Optional
+from typing import Union
 
 
 class UserManager(AuthUserManager):
@@ -92,5 +93,12 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     @property
-    def full_name(self) -> str:
-        return f"{self.first_name} {self.last_name}".strip()
+    def full_name(self) -> Union[str, models.CharField, None]:
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}".strip()
+        elif self.first_name:
+            return self.first_name
+        elif self.last_name:
+            return self.last_name
+        else:
+            return None
