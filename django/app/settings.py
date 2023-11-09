@@ -28,7 +28,7 @@ ALLOWED_HOSTS = []
 if os.getenv("CLUSTER") == "True":
     ALLOWED_HOSTS += [gethostname(), gethostbyname(gethostname())]
 ALLOWED_HOSTS += ["127.0.0.1", "localhost"]
-ALLOWED_CIDR_NETS = ["172.0.0.0/8", "10.0.0.0/8", "192.168.0.0/12"]
+ALLOWED_CIDR_NETS = ["172.0.0.0/8", "10.0.0.0/8", "192.168.0.0/16"]
 
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
@@ -42,7 +42,7 @@ SECURE_REDIRECT_EXEMPT = [r"^_health/$"]
 
 INSTALLED_APPS = [
     "app.apps.AppConfig",
-    "app.apps.AppAdminConfig",
+    # "app.apps.AppAdminConfig",
     "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -224,3 +224,15 @@ JWT_COOKIE_SAME_SITE = os.getenv("JWT_COOKIE_SAME_SITE", "none")
 SESSION_COOKIE_SAMESITE = os.getenv("SESSION_COOKIE_SAMESITE", "strict")
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 30 * 60  # 30 minutes
+
+# Import stack/deployment/local specific settings from settings_local.py via a
+# clever hack as described here,
+# https://code.djangoproject.com/wiki/SplitSettings#RobGoldingsmethod
+# thus both overriding and extending the settings in this module.
+try:
+    LOCAL_SETTINGS
+except NameError:
+    try:
+        from app.settings_local import *
+    except ImportError:
+        pass

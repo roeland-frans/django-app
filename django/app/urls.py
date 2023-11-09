@@ -1,9 +1,9 @@
-from django.contrib import admin
-from django.urls import path
 from django.conf import settings
-from django.urls import re_path
-from django.contrib.staticfiles import views
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.contrib.staticfiles import views
+from django.urls import path
+from django.urls import re_path
 
 urlpatterns = []
 
