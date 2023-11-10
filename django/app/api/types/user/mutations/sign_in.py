@@ -3,6 +3,7 @@ import graphene
 from app.models.user import User
 from email_validator import ValidatedEmail
 from email_validator import validate_email
+from graphql import GraphQLResolveInfo
 from graphql_jwt.decorators import token_auth
 from graphql_jwt.mixins import ObtainJSONWebTokenMixin
 from graphql_jwt.mixins import ResolveMixin
@@ -42,7 +43,7 @@ class SignInMutation(ResolveMixin, ObtainJSONWebTokenMixin, graphene.Mutation):
     full_name = graphene.String(description="The user's full name.")
 
     @classmethod
-    def mutate(cls, root, info, input: SignInInput):
+    def mutate(cls, root: None, info: GraphQLResolveInfo, input: SignInInput):
         validated_email: ValidatedEmail = validate_email(input.email)
         auth = cls.auth(
             root, info, email=validated_email.email, password=input.password
