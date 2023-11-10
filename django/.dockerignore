@@ -1,0 +1,5 @@
+./app/settings_local.py
+./*/*.sqlite3
+app.egg-info
+tailwind
+Dockerfile
